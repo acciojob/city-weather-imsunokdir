@@ -43,6 +43,7 @@ const App = () => {
         <input
           placeholder="Enter a city"
           onChange={(e) => setSearch(e.target.value)}
+          className="search"
         />
       </div>
       <div className="weather-details">

@@ -3,10 +3,9 @@ import "./../styles/App.css";
 import { WEATHER_API } from "../weatherApi";
 
 const App = () => {
-  const [weather, setWeather] = useState("");
-  const [search, setSearch] = useState(null);
-  // const [error, setError] = useState("");
-  // /1
+  const [weather, setWeather] = useState(null);
+  const [search, setSearch] = useState("");
+  const [inputVal, setInputValue] = useState("");
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -20,30 +19,37 @@ const App = () => {
         );
         if (!response.ok) {
           setWeather(null);
-          throw new Error(
-            `Error: status: ${response.status} - ${response.statusText}`
-          );
+          return;
         }
         const resData = await response.json();
         console.log(resData);
         setWeather(resData);
+
+        // Clear the input value after a valid city is entered
+        setInputValue(""); // Only clear the input field
       } catch (err) {
-        console.log(err);
+        console.log("Oops... there was an error..!! : ", err);
       }
     };
+
     const weatherTimeout = setTimeout(() => {
       fetchWeatherData();
     }, 500);
+
     return () => clearTimeout(weatherTimeout);
-  }, [search]);
+  }, [search]); // Only depend on the search term
 
   return (
     <div id="main">
       <div className="city-input">
         <input
           placeholder="Enter a city"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setInputValue(e.target.value);
+          }}
           className="search"
+          value={inputVal}
         />
       </div>
       <div className="weather-details weather">

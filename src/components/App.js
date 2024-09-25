@@ -6,6 +6,7 @@ const App = () => {
   const [weather, setWeather] = useState("");
   const [search, setSearch] = useState(null);
   // const [error, setError] = useState("");
+  // /1
 
   useEffect(() => {
     const fetchWeatherData = async () => {
